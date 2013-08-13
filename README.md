@@ -77,29 +77,38 @@ With hub installed on your machine, create a fork of this repository, Add your n
 the CONTRIBUTERS.md file, and issue a pull request without ever leaving your terminal.
 
 1. Clone this repository
+
     ```bash
     git clone nicknisi/git-workshop
     ```
+
 1. Fork this repository to your Github account: `git fork`
+
     ```bash
     # This will automatically set up a new remote named `USERNAME`
     # where USERNAME is your Github username
     git fork
     ```
+
 1. Open up the CONTRIBUTERS.md file in your favorite editor (hopefully vim) and add your name to the list
 1. Commit and push up the change to your fork
+
     ```bash
     # USERNAME is your Github username
     git commit -a -m "added NAME to the list"`
     git push -u USERNAME master
     ```
+
 1. Issue a pull request from the command line back to this repo
+
     ```bash
     # USERNAME is your Github username
     git pull-request -b nicknisi:master -h USERNAME:master
     ```
+
 1. Open up your repo in Github to confirm your commit has been pushed up and a pull
    request has been opened
+
     ```bash
     git browse
     ```
@@ -122,11 +131,13 @@ git bisect start
 ```
 
 Then, tell bisect where a bad commit exists
+
 ```bash
 git bisect bad HEAD
 ```
 
 Finally, tell bisect where a good commit is
+
 ```bash
 git bisect good 53cb134
 ```
@@ -146,33 +157,44 @@ the bisect branch, we are getting no JavaScript errors, and we are not seeing a 
 We know that the code is working as intended at [37d0821](https://github.com/nicknisi/git-workshop/commit/37d0821049bd94bdc5aaa357311d4a6711d4b16d). Let's use `git bisect` to determine where things went wrong.
 
 1. Checkout the [bisect](https://github.com/nicknisi/git-workshop/tree/bisect) branch
+
     ```bash
     git checkout bisect
     ```
+
 1. Look at the *index.html* file in a browser and test the file to how it is failing
 1. Look through the log to determine where the last known good state of the application is (I have marked this commit with
    the commit message "GOOD STATE")
+
     ```bash
     git log --graph --pretty=oneline --abbrev-commit --decorate
     ```
+
 1. Start up bisect
+
     ```bash
     git bisect start
     ```
+
 1. Alert bisect of the bad commit
+
     ```bash
     git bisect bad HEAD
     ```
+
 1. Alert bisect of the good commit
+
     ```bash
     git bisect good 37d0821
     ```
+
 1. git will now pick a commit between the two and check it out. Reload the page in the browser and determine if the slider
    is working properly (showing up).
     + If it is showing up, `git bisect good`
     + If it is not showing up, `git bisect bad`
 1. After each command, git will checkout a new commit until it has determined the exact commit that introduced the bug
 1. Once you have determined the bad commit, you should be presented with a message like this:
+
     ```bash
     ❯ git bisect bad                                                                                                       ✔
     9378fec...|bisect
@@ -184,9 +206,10 @@ We know that the code is working as intended at [37d0821](https://github.com/nic
         adjust animation speed slowing down again
 
         :100644 100644 2bf5ba28648e5c388556b37701addac90d9daf20 63ec399ce0f457bd17e5e6933a0a140c1435223d M      index.html
-
     ```
+
 1. To end bisect at any time reset it
+
     ```bash
     git bisect reset
     ```
@@ -303,6 +326,7 @@ Otherwise, it has failed. Let's add a git hook to show us info about our reposit
     ```
 
 1. Set the contents of the file
+
     ```bash
     #!/bin/bash
 
@@ -313,8 +337,10 @@ Otherwise, it has failed. Let's add a git hook to show us info about our reposit
     echo "
     echo ""]]"
     ```
+
 1. Back in the repository, create a new branch and notice that you will get a
    summary of the last 5 commits to the repository.
+
     ```bash
     git checkout -b new-branch
     ```
