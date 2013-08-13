@@ -13,13 +13,8 @@ also have a free account on [Github](https://github.com) and be sure you can pus
 either by [generating an SSH key](https://help.github.com/articles/generating-ssh-keys)
 or by using the [https method](https://help.github.com/articles/set-up-git).
 
-### Clone this Repository
-
-You can clone this repository to your local machine by issuing the following command:
-
-```shell
-git clone https://github.com/nicknisi/git-workshop.git
-```
+> Do not clone or fork this repository yet. We will get to that in the *Introducing hub*
+> section
 
 ## Overview
 
@@ -48,19 +43,19 @@ provides a number of shortcuts and commands that make it easier to work with git
 hosted on Github. For example, cloning this repository is a lot simpler with hub.
 Instead of typing
 
-```shell
+```bash
 git clone https://github.com/nicknisi/git-workshop.git
 ```
 
 to clone this repo, you just need to run
 
-```shell
+```bash
 git clone nicknisi/git-workshop
 ```
 
 #### Installing hub
 
-```shell
+```bash
 # install on OS X
 $ brew install hub
 
@@ -89,25 +84,29 @@ With hub installed on your machine, create a fork of this repository, Add your n
 the CONTRIBUTERS.md file, and issue a pull request without ever leaving your terminal.
 
 1. Clone this repository
-	```shell
-	git clone nicknisi/gitworkshop
+	```bash
+	git clone nicknisi/git-workshop
 	```
 1. Fork this repository to your Github account: `git fork`
-	```shell
+	```bash
+	# This will automatically set up a new remote named `USERNAME`
+	# where USERNAME is your Github username
 	git fork
 	```
 1. Open up the CONTRIBUTERS.md file in your favorite editor (hopefully vim) and add your name to the list
 1. Commit and push up the change to your fork
-	```shell
+	```bash
+	# USERNAME is your Github username
 	git commit -a -m "added NAME to the list"`
-	git push -u origin master
+	git push -u USERNAME master
 	```
 1. Issue a pull request from the command line back to this repo
-	```shell
-	git pull-request -b nicknisi:master -h origin:master
+	```bash
+	# USERNAME is your Github username
+	git pull-request -b nicknisi:master -h USERNAME:master
 	```
 1. Open up your repo in Github to confirm your commit has been pushed up and a pull
    request has been opened
-	```shell
+	```bash
 	git browse
 	```
