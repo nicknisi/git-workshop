@@ -25,10 +25,7 @@ The following topics are going to be covered in this workshop:
 + Teaching git about Github with hub
 + Finding bugs with bisect
 + Configuring git
-+ Messin' with history
-    + Advanced interactive rebase
-    + Inserting commits into existing history (cherry-picking)
-    + Undoing and redoing
++ Interactive rebase
 
 -------
 
@@ -348,3 +345,150 @@ own, custom git hooks that have been copied from the above path.
 > Note that the hooks are copied, meaning that any revisions to them later will
 > not be copied over. However, running `git init` in an existing repository
 > will copy the updated hooks over to the repo.
+
+### Interactive rebase
+
+Remember that nasty bisect branch with its many commits changing the same thing
+over and over? Wouldn't it be nice if we could clean up our log so it doesn't
+look so nasty?
+
+```bash
+* fe321d9 Nick Nisi: adjust animation to 320 -   (HEAD, origin/bisect, bisect) (17 hours ago)
+* 900b366 Nick Nisi: adjust animation to 319 -   (17 hours ago)
+* a5ba9ac Nick Nisi: adjust animation to 318 -   (17 hours ago)
+* f84b4cd Nick Nisi: adjust animation to 317 -   (17 hours ago)
+* 70f7912 Nick Nisi: adjust animation to 316 -   (17 hours ago)
+* 442c007 Nick Nisi: adjust animation to 314 -   (17 hours ago)
+* 7fd99d5 Nick Nisi: adjust animation to 313 -   (17 hours ago)
+* 507d90e Nick Nisi: adjust animation to 312 -   (17 hours ago)
+* 76162b0 Nick Nisi: adjust animation to 311 -   (17 hours ago)
+* 89390fa Nick Nisi: adjust animation to 310 -   (17 hours ago)
+* 2f3c3fc Nick Nisi: adjust animation to 309 -   (17 hours ago)
+* 18ce973 Nick Nisi: adjust animation to 308 -   (17 hours ago)
+* 448e9e2 Nick Nisi: adjust animation to 307 -   (17 hours ago)
+* f7a452d Nick Nisi: adjust animation to 306 -   (17 hours ago)
+* e23d9f8 Nick Nisi: adjust animation to 305 -   (17 hours ago)
+* 72eb0c2 Nick Nisi: adjust animation to 304 -   (17 hours ago)
+* 5e4cee6 Nick Nisi: adjust animation to 303 -   (17 hours ago)
+* 4f88c8d Nick Nisi: adjust animation to 302 -   (17 hours ago)
+* 9378fec Nick Nisi: adjust animation speed slowing down again -   (17 hours ago)
+* cc62c6f Nick Nisi: adjust animation speed slowing down -   (17 hours ago)
+* faa0412 Nick Nisi: adjust animation speed speed up again -   (17 hours ago)
+* 4e024b6 Nick Nisi: adjust animation speed speed up -   (17 hours ago)
+* 983eb1f Nick Nisi: adjust animation speed speed up -   (17 hours ago)
+* 00f4ca5 Nick Nisi: adjust animation speed speed up -   (17 hours ago)
+* 06badcb Nick Nisi: adjust animation speed -   (17 hours ago)
+* d1ebc8e Nick Nisi: adjust box size -   (17 hours ago)
+* d3d2d4d Nick Nisi: change box size -   (17 hours ago)
+* ecf34f6 Nick Nisi: change border color -   (17 hours ago)
+* de9bb1f Nick Nisi: add h2 tag contents -   (17 hours ago)
+* 2210aca Nick Nisi: add h2 tag -   (17 hours ago)
+* 37d0821 Nick Nisi: GOOD STATE -   (17 hours ago)
+```
+
+The good news is that we can! The bad news is that it needs to be used with caution.
+The [Github Help page](https://help.github.com/articles/interactive-rebase) states it best:
+
+> **Warning**: It is considered bad practice to rebase commits which you have already pushed to a remote repository. Doing so may invoke the wrath of the git gods.
+
+When you run an interactive rebase, you are changing your git history. Commits will be
+assigned new SHAs. If you have already pushed up and someone else has pulled down the changes, it will mess up their repository if you change the history out from under them.
+
+Running `git rebase -i HEAD 4f88c8d will pop us into our editor and list all of the commits within the provided range.
+Each commit will have the word *pick* next to it, meaning that we are picking this commit (leaving it as it is).
+The other options are
+
++ reword - use commit but edit the commit message
++ edit - use commit, but stop for amending
++ squash - use commit, but meld into previous commit
++ fixup - like "squash", but discard this commit's log message
++ exec - run command
+
+
+We can use the squash, pick, and fixup commands to simplify the repository.
+
+#### Activity: Clean the history
+
+Let's use our new knowledge of interactive rebase to clean up the bisect branch.
+
+1. Let's branch off of bisect and do this in a new branch
+
+    ```bash
+    git checkout bisect
+    git checkout -b rebase
+    ```
+
+1. Enter into an interactive rebase, down to the "GOOD STATE" commit
+
+    ```bash
+    git rebase -i 37d0821
+    ```
+
+1. For each of the commits that have a similar message, select the top one to "pick". For the rest, select "squash"
+
+    ```bash
+    pick 2210aca add h2 tag
+    pick de9bb1f add h2 tag contents
+    pick ecf34f6 change border color
+    pick d3d2d4d change box size
+    pick d1ebc8e adjust box size
+    pick 06badcb adjust animation speed
+    pick 00f4ca5 adjust animation speed speed up
+    pick 983eb1f adjust animation speed speed up
+    pick 4e024b6 adjust animation speed speed up
+    pick faa0412 adjust animation speed speed up again
+    pick cc62c6f adjust animation speed slowing down
+    pick 9378fec adjust animation speed slowing down again
+    pick 4f88c8d adjust animation to 302
+    squash 5e4cee6 adjust animation to 303
+    squash 72eb0c2 adjust animation to 304
+    squash e23d9f8 adjust animation to 305
+    squash f7a452d adjust animation to 306
+    squash 448e9e2 adjust animation to 307
+    squash 18ce973 adjust animation to 308
+    squash 2f3c3fc adjust animation to 309
+    squash 89390fa adjust animation to 310
+    squash 76162b0 adjust animation to 311
+    squash 507d90e adjust animation to 312
+    squash 7fd99d5 adjust animation to 313
+    squash 442c007 adjust animation to 314
+    squash 70f7912 adjust animation to 316
+    squash f84b4cd adjust animation to 317
+    squash a5ba9ac adjust animation to 318
+    squash 900b366 adjust animation to 319
+    squash fe321d9 adjust animation to 320
+    ```
+
+1. Complete by saving and closing your editor
+1. Look at the new history in the log
+
+    ```* 
+    * db86962 Nick Nisi: adjust animation to 302 -   (HEAD, rebase) (4 seconds ago)
+    * 9378fec Nick Nisi: adjust animation speed slowing down again -   (18 hours ago)
+    * cc62c6f Nick Nisi: adjust animation speed slowing down -   (18 hours ago)
+    * faa0412 Nick Nisi: adjust animation speed speed up again -   (18 hours ago)
+    * 4e024b6 Nick Nisi: adjust animation speed speed up -   (18 hours ago)
+    * 983eb1f Nick Nisi: adjust animation speed speed up -   (18 hours ago)
+    * 00f4ca5 Nick Nisi: adjust animation speed speed up -   (18 hours ago)
+    * 06badcb Nick Nisi: adjust animation speed -   (18 hours ago)
+    * d1ebc8e Nick Nisi: adjust box size -   (18 hours ago)
+    * d3d2d4d Nick Nisi: change box size -   (18 hours ago)
+    * ecf34f6 Nick Nisi: change border color -   (18 hours ago)
+    * de9bb1f Nick Nisi: add h2 tag contents -   (18 hours ago)
+    * 2210aca Nick Nisi: add h2 tag -   (18 hours ago)
+    * 37d0821 Nick Nisi: GOOD STATE -   (18 hours ago)
+    * a36751a Nick Nisi: add border to color box -   (18 hours ago)
+    * c287e19 Nick Nisi: fixing slider values -   (18 hours ago)
+    * 6f4edca Nick Nisi: messing with slider values -   (18 hours ago)
+    * 225c4ef Nick Nisi: adding width style -   (18 hours ago)
+    * 09ac64d Nick Nisi: adding height style -   (18 hours ago)
+    * 6148238 Nick Nisi: removed height/width -   (18 hours ago)
+    * d1e1701 Nick Nisi: removing border -   (18 hours ago)
+    * 2c9df68 Nick Nisi: adding cdn scripts -   (18 hours ago)
+    * 0763e15 Nick Nisi: initial commit of index -   (18 hours ago)
+    * 9f0ec0c Nick Nisi: Add editorconfig -   (20 hours ago)
+    * 39aad97 Nick Nisi: updating hub instructions -   (20 hours ago)
+    * 2922ce8 Nick Nisi: Added README and hub walkthrough -   (21 hours ago)
+    * 5fb2d99 Nick Nisi: Rename LICENSE.md to LICENSE -   (21 hours ago)
+    * 53cb134 Nick Nisi: Create LICENSE.md -   (21 hours ago)
+    ```
