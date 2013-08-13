@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Spinner</title>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/dark-hive/jquery-ui.min.css" /> -->
+    <style>
+        #color {
+            border: 1px solid #eff0f1;
+            height: 200px;
+            width: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Color Slider</h1>
+    <div id="color"></div>
+    <div id="slider"></div>
+    <script type="text/javascript">
+        $('#slider').slider({
+            min: 0,
+            max: 1,
+            step: .01,
+            change: function (event, ui) {
+                var color = '#' + Math.floor(ui.value * 16777215).toString(16);
+                console.log("change color", ui.value, color);
+                $('#color').animate({'background-color': color}, 'fast');
+            }
+        });
+        console.log("creating slider");
+    </script>
+</body>
+</html>
