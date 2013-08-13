@@ -22,6 +22,7 @@ or by using the [https method](https://help.github.com/articles/set-up-git).
 
 The following topics are going to be covered in this workshop:
 
++ [Git Branching Overview](http://pcottle.github.io/learnGitBranching/?NODEMO)
 + Teaching git about Github with hub
 + Finding bugs with bisect
 + Configuring git
