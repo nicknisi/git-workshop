@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/dark-hive/jquery-ui.min.css" />
     <style>
         #color {
-            border: 1px solid #ffffff;
+            border: 1px solid #000000;
             height: 200px;
             width: 200px;
             display: block;
@@ -29,7 +29,7 @@
             change: function (event, ui) {
                 var color = '#' + Math.floor(ui.value * 16777215).toString(16);
                 console.log("change color", ui.value, color);
-                $('#color').animate({'background-color': color}, 'fast');
+                $('#color').animate({'background-color': color}, 'slow');
             }
         });
     </script>
