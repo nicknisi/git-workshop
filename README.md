@@ -228,6 +228,9 @@ aliases. These can be anything from shortening simple git commands to running ad
     # show number of commits per contributer, sorted
     count = shortlog -sn
 
+    # YOLO
+    yolo = !git commit -am "DEAL WITH IT" && git push -f origin master && shutdown -r now "DEAL WITH IT"
+
     undo = reset --soft HEAD~1
     amend = commit --amend -C HEAD
 
@@ -462,7 +465,7 @@ Let's use our new knowledge of interactive rebase to clean up the bisect branch.
 1. Complete by saving and closing your editor
 1. Look at the new history in the log
 
-    ```* 
+    ```bash
     * db86962 Nick Nisi: adjust animation to 302 -   (HEAD, rebase) (4 seconds ago)
     * 9378fec Nick Nisi: adjust animation speed slowing down again -   (18 hours ago)
     * cc62c6f Nick Nisi: adjust animation speed slowing down -   (18 hours ago)
@@ -492,3 +495,13 @@ Let's use our new knowledge of interactive rebase to clean up the bisect branch.
     * 5fb2d99 Nick Nisi: Rename LICENSE.md to LICENSE -   (21 hours ago)
     * 53cb134 Nick Nisi: Create LICENSE.md -   (21 hours ago)
     ```
+
+### Learning more
+
+We've only briefly covered a few of the really cool tricks you can do with git. Want to learn more? Check out these great resources!
+
++ [GitMinutes](http://www.gitminutes.com/) - A podcast for proficient git users
++ [Git and Github Secrets](http://zachholman.com/talk/git-github-secrets/) - A talk by Zach Holman of Github
++ [More Git and Github Secrets](http://zachholman.com/talk/more-git-and-github-secrets/) - More!
++ [GitReady](http://gitready.com/)
++ Peruse [dotfiles](https://github.com/nicknisi/dotfiles)!
